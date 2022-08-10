@@ -1,4 +1,4 @@
-# PolyVenture Contract 
+# PolyVenture Contracts
 
 This repository holds all smart contracts related to polyventure. 
 There are 2 main contracts:
