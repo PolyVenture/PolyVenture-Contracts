@@ -5,14 +5,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 //  is ERC721URIStorage, ERC721Enumerable
-contract PolygonVentureAccessPass is ERC721, ERC721Enumerable, ERC721URIStorage  {
+contract PolyVentureAccessPass is ERC721, ERC721Enumerable, ERC721URIStorage  {
     uint256 private _currentTokenId = 0;
 
     constructor(
         string memory _name,
         string memory _symbol
     ) ERC721(_name, _symbol) {
-        mintTo(msg.sender);
+        // mintTo(msg.sender);
     }
 
     /**

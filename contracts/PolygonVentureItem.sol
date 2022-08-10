@@ -6,12 +6,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 //  is ERC721URIStorage, ERC721Enumerable
 
-
-
-contract PolygonVentureItem is ERC721, ERC721Enumerable, ERC721URIStorage {
+contract PolyVentureItem is ERC721, ERC721Enumerable, ERC721URIStorage {
     uint256 private _currentTokenId = 0;
     address public accessPassAddress;
     mapping (uint => bool) keyMinted;
+    mapping (uint => bool) ropeMinted;
+    mapping (uint => bool) swordMinted;
+    mapping (uint => bool) noteMinted;
+    mapping (uint => bool) accessMinted;
 
     constructor(
         string memory _name,
@@ -19,7 +21,6 @@ contract PolygonVentureItem is ERC721, ERC721Enumerable, ERC721URIStorage {
         address _accessPassAddress
     ) ERC721(_name, _symbol) {
        accessPassAddress = _accessPassAddress;
-       mintKey(msg.sender, 1);
     }
 
     /**
@@ -30,11 +31,55 @@ contract PolygonVentureItem is ERC721, ERC721Enumerable, ERC721URIStorage {
         keyMinted[tokenPassId] = true;
         uint256 newTokenId = _getNextTokenId();
         _mint(_to, newTokenId);
-        _setTokenURI(newTokenId, "ipfs://QmapfDwhnR5pUiBf3scb2ukTdgWbhwdNGHbzN2k2RCjiEy");
+        _setTokenURI(newTokenId, "ipfs://QmT2q79bDoLYHBDBEHx4vvePWX7ks2P9FTG8sfccw62LYU");
         _incrementTokenId();
     }
 
+        /**
+     * @dev Mints a token to an address with a tokenURI.
+     * @param _to address of the future owner of the token
+     */
+    function mintSword(address _to, uint tokenPassId) hasNotClaimedSword(tokenPassId) public {
+        swordMinted[tokenPassId] = true;
+        uint256 newTokenId = _getNextTokenId();
+        _mint(_to, newTokenId);
+        _setTokenURI(newTokenId, "ipfs://QmXgjVQ63ND19dv5YA7oC6wfh79n1zVQ9ey2mVzKnjBUrJ");
+        _incrementTokenId();
+    }
 
+        /**
+     * @dev Mints a token to an address with a tokenURI.
+     * @param _to address of the future owner of the token
+     */
+    function mintNote(address _to, uint tokenPassId) hasNotClaimedNote(tokenPassId) public {
+        noteMinted[tokenPassId] = true;
+        uint256 newTokenId = _getNextTokenId();
+        _mint(_to, newTokenId);
+        _setTokenURI(newTokenId, "ipfs://QmPgano4Mw88jzAGUQ3sYUbHe7knZDxj9eYFPkTC3LftVY");
+        _incrementTokenId();
+    }
+
+        /**
+     * @dev Mints a token to an address with a tokenURI.
+     * @param _to address of the future owner of the token
+     */
+    function mintRope(address _to, uint tokenPassId) hasNotClaimedRope(tokenPassId) public {
+        ropeMinted[tokenPassId] = true;
+        uint256 newTokenId = _getNextTokenId();
+        _mint(_to, newTokenId);
+        _setTokenURI(newTokenId, "ipfs://QmQfSowHMyqiFFZdkcscBXgHdvRksgmf2SRe8juG3oAGA1");
+        _incrementTokenId();
+    }
+
+    function mintAccessPass(address _to, uint tokenPassId, string memory passPhrase) hasNotClaimedAccess(tokenPassId) public {
+        bytes32 passHash = 0xa796a735a843558d930ef68c2ed980c9779df653f33021d3dddbbb761a64ac3b;
+        require(keccak256(bytes(passPhrase)) == passHash, "passphrase must be valid");
+        accessMinted[tokenPassId] = true;
+        uint256 newTokenId = _getNextTokenId();
+        _mint(_to, newTokenId);
+        _setTokenURI(newTokenId, "ipfs://QmRbtTjXYBPCLpBTXeK731wJK41TbSC4y1VfuHQUL83amb");
+        _incrementTokenId();
+    }
 
     /**
      * @dev calculates the next token ID based on value of _currentTokenId
@@ -71,6 +116,16 @@ contract PolygonVentureItem is ERC721, ERC721Enumerable, ERC721URIStorage {
         return super.tokenURI(tokenId);
     }
 
+    function mintStatus(uint256 tokenId) public view returns (bool[5] memory) {
+        return [
+        keyMinted[tokenId],
+        ropeMinted[tokenId],
+        swordMinted[tokenId],
+        noteMinted[tokenId],
+        accessMinted[tokenId]
+        ];
+    }
+
     function supportsInterface(bytes4 interfaceId)
         public
         view
@@ -81,8 +136,32 @@ contract PolygonVentureItem is ERC721, ERC721Enumerable, ERC721URIStorage {
     }
 
     modifier hasNotClaimedKey(uint tokenId) {
-    require(keyMinted[tokenId] == false);
-    require(ERC721(accessPassAddress).ownerOf(tokenId) == msg.sender); 
+        require(keyMinted[tokenId] == false);
+        require(ERC721(accessPassAddress).ownerOf(tokenId) == msg.sender); 
     _;
-  }
+    }
+
+    modifier hasNotClaimedRope(uint tokenId) {
+        require(ropeMinted[tokenId] == false);
+        require(ERC721(accessPassAddress).ownerOf(tokenId) == msg.sender); 
+    _;
+    }
+    
+    modifier hasNotClaimedSword(uint tokenId) {
+        require(swordMinted[tokenId] == false);
+        require(ERC721(accessPassAddress).ownerOf(tokenId) == msg.sender); 
+    _;
+    }
+
+    modifier hasNotClaimedNote(uint tokenId) {
+        require(noteMinted[tokenId] == false);
+        require(ERC721(accessPassAddress).ownerOf(tokenId) == msg.sender); 
+    _;
+    }
+
+    modifier hasNotClaimedAccess(uint tokenId) {
+        require(accessMinted[tokenId] == false);
+        require(ERC721(accessPassAddress).ownerOf(tokenId) == msg.sender);
+    _;
+    }
 }

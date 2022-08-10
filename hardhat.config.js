@@ -28,7 +28,7 @@ module.exports = {
     },
     matic: {
       url: "https://rpc-mumbai.maticvigil.com",
-      accounts: ['0x02c10b3e6d7c6e6b6def0af2c6124bbe5b9e93a8e6e2484961d5b2e23f15d8e2'],
+      accounts: ['0x1a5046e4f0f824913939c4a6d3e8a1709ee3edf200852006de0ebc7436069ea5'], // testnet addr
     }
   },
   etherscan: {

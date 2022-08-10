@@ -14,16 +14,18 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const contractPass = await hre.ethers.getContractFactory("PolygonVentureAccessPass");
-  const deployedContractPass = await contractPass.deploy("Polygon Ventures", "PVAP");
+  const contractPass = await hre.ethers.getContractFactory("PolyVentureAccessPass");
+  const deployedContractPass = await contractPass.deploy("PolyVenture Keypass", "PVAP");
   console.log("Contract deployed to:", deployedContractPass.address);
   await deployedContractPass.deployed();
 
-  const contractItems = await hre.ethers.getContractFactory("PolygonVentureItem");
-  const deployedContract = await contractItems.deploy("Polygon Ventures", "PVAP", deployedContractPass.address)
+  const contractItems = await hre.ethers.getContractFactory("PolyVentureItem");
+  const deployedContract = await contractItems.deploy("PolyVenture Items", "PVAP", deployedContractPass.address)
 
   console.log("Contract deployed to:", deployedContract.address);
   await deployedContract.deployed();
+
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
