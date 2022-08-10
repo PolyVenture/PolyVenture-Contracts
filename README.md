@@ -1,8 +1,10 @@
-# Basic Sample Hardhat Project
+# PolyVenture Contract 
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This repository holds all smart contracts related to polyventure. 
+There are 2 main contracts:
 
-Try running some of the following tasks:
+`PolygonVentureAccessPass` mints the initial play pass for the user
+`PolygonVentureItem` manages the items that are attached to the user playpass
 
 ```shell
 npx hardhat accounts
